@@ -186,10 +186,20 @@ h1{ font-size:34px; line-height:1.02; }
 .pill{ background:rgba(255,255,255,0.02); padding:8px 10px; border-radius:999px; font-weight:700; color:#d6f3ff; }
 
 /* projects */
-.projects{ margin-top:12px; display:grid; gap:12px; grid-template-columns:1fr 1fr; }
-@media(max-width:680px){ .projects{ grid-template-columns:1fr; } }
-.project{ padding:12px; border-radius:10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); transition: transform .22s, box-shadow .22s; }
-.project:hover{ transform:translateY(-8px); box-shadow:0 24px 60px rgba(0,0,0,0.5); }
+.project{
+  display:block;
+  padding:12px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.03);
+  text-decoration:none;
+  color:inherit;
+  transition: transform .22s, box-shadow .22s;
+}
+.project:hover{
+  transform:translateY(-8px);
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+}
 
 /* footer */
 .footer{ margin-top:22px; color:var(--muted); text-align:center; font-size:13px; }
@@ -277,9 +287,13 @@ h1{ font-size:34px; line-height:1.02; }
 
       <section class="section" id="projects">
         <h2>Projects</h2>
-        <div class="projects" aria-hidden="false">
-          <div class="project" data-tilt tabindex="0">
-             <a href="https://github.com/githoober929/fitnessapp" target="_blank" class="project"></a>
+        <div class="project" aria-hidden="false">
+         
+             <a href="https://github.com/githoober929/fitnessapp"
+       target="_blank"
+       class="project"
+       data-tilt
+       tabindex="0">
             <h3>Mobile Fitness App</h3>
             <p style="color:var(--muted)">Cross-platform fitness tracker built with Flutter & Firebase.</p>
             </a>
