@@ -1,88 +1,485 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Philip T George • Portfolio</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Philip T George — Portfolio</title>
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons (inline SVGs used below) -->
+
+  <!-- GSAP + ScrollTrigger (animations) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+  <!-- Tiny tilt library for card hover (optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js" defer></script>
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#00aaff;
+      --muted:#93a3b8;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      --max-width:1200px;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#071021 0%, #081224 60%);
+      color:#dbe8f6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:28px;
+    }
+
+    /* Top Navigation */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+      position:sticky;
+      top:0;
+      background:linear-gradient(180deg, rgba(3,7,12,0.55), rgba(3,7,12,0.12));
+      backdrop-filter: blur(6px);
+      z-index:40;
+    }
+    .social{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .social a{
+      color:var(--muted);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px;
+      border-radius:10px;
+      transition:all .22s ease;
+      font-size:14px;
+    }
+    .social a:hover{ transform:translateY(-3px); color:var(--accent); }
+
+    .download-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:linear-gradient(90deg, rgba(0,170,255,0.12), rgba(0,170,255,0.06));
+      border: 1px solid rgba(0,170,255,0.12);
+      color:var(--accent);
+      padding:8px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+    }
+    .download-btn:hover{ box-shadow:0 6px 30px rgba(0,170,255,0.06); transform:translateY(-4px); }
+
+    /* HERO */
+    .hero{
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:32px;
+      align-items:center;
+      padding:36px 0;
+    }
+    .profile-card{
+      position:relative;
+      width:100%;
+      height:420px;
+      border-radius:var(--radius);
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 8px 40px rgba(3,7,12,0.6);
+    }
+
+    .profile-card::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background: radial-gradient(600px 200px at 10% 10%, rgba(0,170,255,0.06), transparent 12%),
+                  radial-gradient(500px 160px at 90% 90%, rgba(0,255,170,0.02), transparent 12%);
+      pointer-events:none;
+    }
+
+    /* profile image */
+    .profile-img{
+      width:320px;
+      height:320px;
+      object-fit:cover;
+      border-radius:18px;
+      border:10px solid rgba(2,6,12,0.6);
+      box-shadow: 0 18px 50px rgba(2,6,12,0.6);
+      transform:translateY(0);
+    }
+
+    /* Hero text column */
+    .hero-intro{
+      padding:10px 0;
+    }
+    .hero-intro h1{
+      margin:0 0 8px 0;
+      font-size:40px;
+      letter-spacing:-0.6px;
+      color:#e8f7ff;
+    }
+    .hero-intro h1 span{ color:var(--accent); }
+    .hero-intro .role{
+      margin:0 0 16px 0;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .hero-intro p.lead{
+      max-width:720px;
+      color:#bedaf2;
+      margin-bottom:18px;
+    }
+
+    .cta-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+
+    .cta-primary{
+      padding:12px 18px;
+      background:linear-gradient(90deg,var(--accent), #00ffc6 120%);
+      color:#041021;
+      border-radius:12px;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow: 0 10px 30px rgba(0,170,255,0.12);
+      transition: transform .2s ease;
+    }
+    .cta-primary:hover{ transform:translateY(-4px); }
+
+    .cta-secondary{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      text-decoration:none;
+      background:transparent;
+    }
+
+    /* About / Sections */
+    section{
+      margin-top:36px;
+      padding:28px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .skills-grid{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .skill-pill{
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.03);
+      color: #dbe8f6;
+      font-weight:600;
+      font-size:13px;
+      transition:all .18s ease;
+    }
+    .skill-pill:hover{ transform:translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+
+    /* Projects */
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+      margin-top:14px;
+    }
+    .project{
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s ease;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+    }
+    .project:hover{ transform:translateY(-10px) rotate(-.4deg); box-shadow: 0 30px 80px rgba(2,6,12,0.6); }
+
+    .project h4{ margin:0 0 6px 0; color:#e8f7ff; }
+    .project p { margin:0; color:var(--muted); font-size:14px; }
+
+    /* footer */
+    footer{ margin:28px 0 56px 0; text-align:center; color:var(--muted); font-size:13px; }
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{ grid-template-columns: 1fr; gap:18px; }
+      .profile-card{ height:360px; }
+      .profile-img{ width:260px; height:260px; border-radius:12px; }
+    }
+    @media (max-width:420px){
+      .profile-img{ width:220px; height:220px; }
+      .hero-intro h1{ font-size:28px; }
+    }
+
+    /* subtle scroll indicator */
+    .scroll-hint{
+      margin-top:18px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* small helper for reveal */
+    .reveal{ opacity:0; transform:translateY(12px); will-change:transform,opacity; }
+  </style>
 </head>
 <body>
-  <!-- HEADER / HERO -->
-  <header class="hero" id="home">
-    <nav class="top-nav">
-      <div class="social-icons">
-        <a href="https://linkedin.com/in/philipstgeorges" target="_blank">🔗</a>
-        <a href="https://github.com/githoober929" target="_blank">🐙</a>
-        <a href="mailto:georgetphilip13@gmail.com">✉️</a>
+  <div class="container">
+
+    <!-- TOP BAR -->
+    <div class="topbar" aria-hidden="false">
+      <div class="social" aria-label="Social links">
+        <a class="link" href="https://linkedin.com/in/philipstgeorges" target="_blank" title="LinkedIn">
+          <!-- LinkedIn SVG -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5z" fill="#93A3B8" opacity="0.9"/></svg>
+        </a>
+
+        <a class="link" href="https://github.com/githoober929" target="_blank" title="GitHub">
+          <!-- GitHub SVG -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.78-.26.78-.57v-2.02c-3.2.7-3.87-1.38-3.87-1.38-.52-1.34-1.27-1.7-1.27-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.72-1.55-2.56-.3-5.25-1.28-5.25-5.72 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.5.12-3.1 0 0 .98-.32 3.2 1.18C10.4 6.4 11.2 6.3 12 6.3s1.6.1 2.42.4c2.2-1.5 3.18-1.18 3.18-1.18.64 1.6.24 2.8.12 3.1.75.82 1.2 1.84 1.2 3.1 0 4.45-2.7 5.42-5.28 5.7.42.36.8 1.08.8 2.2v3.3c0 .32.2.69.8.58C20.71 21.4 24 17.08 24 12c0-6.35-5.15-11.5-11.99-11.5z" fill="#93A3B8"/></svg>
+        </a>
+
+        <a class="link" href="mailto:georgetphilip13@gmail.com" title="Email">
+          <!-- Mail SVG -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M2 6v12h20V6l-10 6L2 6z" fill="#93A3B8"/></svg>
+        </a>
       </div>
-      <a class="btn download-btn" href="https://drive.google.com/file/d/1lLl-JLZ7BUZn0xfz2Qstd00FLJsIxEWL/view?usp=drive_link" target="_blank">Download Resume</a>
-    </nav>
 
-    <div class="hero-flex">
-      <img src="/mnt/data/portfoliopic.jpg" alt="Profile" class="profile-left" />
+      <a class="download-btn" href="https://drive.google.com/file/d/1lLl-JLZ7BUZn0xfz2Qstd00FLJsIxEWL/view?usp=drive_link" target="_blank" rel="noreferrer">
+        <!-- Download icon -->
+        <svg width="16" height="16" viewBox="0 0 24 24" style="margin-right:8px"><path fill="#00aaff" d="M5 20h14v-2H5v2zm7-18l-5 5h3v6h4V7h3l-5-5z"/></svg>
+        Download Resume
+      </a>
+    </div>
 
-      <div class="hero-text animate-fade">
-        <h1 class="title">Hey, I'm <span>Philip</span></h1>
-        <p class="subtitle">Flutter Developer • EA Automation • AI Workflow Builder</p>
-        <p class="about-short">A developer experienced in Flutter, MT5 EA development, and Flowise AI workflows. I build clean and reliable solutions.</p>
+    <!-- HERO -->
+    <header class="hero" id="home" role="banner">
+      <div class="profile-card reveal" id="profileCard" aria-hidden="false">
+        <!-- Use the local path provided by developer/system -->
+        <!-- NOTE: When deploying to GitHub, change this to a relative path within your repo (e.g., assets/portfoliopic.jpg) -->
+        <img src="/mnt/data/portfoliopic.jpg" alt="Philip T George" class="profile-img" id="profileImg" />
       </div>
-    </div>
-  </header>
 
-  <!-- ABOUT -->
-  <section class="about" id="about">
-    <h2>About Me</h2>
-    <p>
-      A developer experienced in Flutter, MT5 EA development, and Flowise AI workflows. I focus on creating clean, scalable, and
-      well-structured solutions that perform reliably.
-    </p>
-  </section>
+      <div class="hero-intro reveal" id="heroIntro">
+        <h1>Hey, I'm <span>Philip</span></h1>
+        <div class="role">Flutter Developer • EA Automation • AI Workflow Builder</div>
 
-  <!-- SKILLS -->
-  <section class="skills" id="skills">
-    <h2>Expertise</h2>
-    <div class="skill-grid">
-      <span>Flutter & Dart</span>
-      <span>MT5 / MQL5</span>
-      <span>Flowise AI</span>
-      <span>Firebase</span>
-      <span>Git & GitHub</span>
-      <span>Figma</span>
-    </div>
-  </section>
+        <p class="lead">A developer experienced in Flutter, MT5 EA development, and Flowise AI workflows. I build clean, scalable, and reliable solutions focused on strong execution.</p>
 
-  <!-- PROJECTS -->
-  <section class="projects" id="projects">
-    <h2>Projects</h2>
+        <div class="cta-row" role="navigation" aria-label="Primary actions">
+          <a class="cta-primary" href="#projects">See projects</a>
+          <a class="cta-secondary" href="https://drive.google.com/file/d/1lLl-JLZ7BUZn0xfz2Qstd00FLJsIxEWL/view?usp=drive_link" target="_blank" rel="noreferrer">Download CV</a>
+        </div>
 
-    <div class="project-card">
-      <h3>Mobile Fitness App</h3>
-      <p>Built a cross‑platform fitness app using Flutter with Firebase for authentication and real‑time tracking.</p>
-      <a href="https://github.com/githoober929/fitnessapp" target="_blank">View Project</a>
-    </div>
+        <div class="scroll-hint" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" style="opacity:.9"><path fill="#93A3B8" d="M12 16l-6-6h12z"/></svg>
+          <span>Scroll down</span>
+        </div>
+      </div>
+    </header>
 
-    <div class="project-card">
-      <h3>Job Portal Website</h3>
-      <p>Developed a dynamic job portal using PHP, JavaScript, and MySQL with responsive UI and secure data handling.</p>
-    </div>
+    <!-- ABOUT -->
+    <section id="about" class="reveal">
+      <h2>About</h2>
+      <p>I focus on building practical software that solves real problems: mobile apps with Flutter, algorithmic trading tools using MQL5, and AI-driven workflows with Flowise. I prioritize clean code, testable architecture, and reliable delivery.</p>
+    </section>
 
-    <div class="project-card">
-      <h3>MT5 EA Automation</h3>
-      <p>Created automated trading systems with MQL5, including risk management, entries, filters, and optimization.</p>
-    </div>
-  </section>
+    <!-- SKILLS + EDUCATION -->
+    <section class="two-col reveal" id="skills-edu">
+      <div>
+        <h3>Core expertise</h3>
+        <div class="skills-grid" id="skillsGrid">
+          <div class="skill-pill">Flutter & Dart</div>
+          <div class="skill-pill">MT5 / MQL5</div>
+          <div class="skill-pill">Flowise AI</div>
+          <div class="skill-pill">Firebase</div>
+          <div class="skill-pill">Git & GitHub</div>
+          <div class="skill-pill">Figma</div>
+        </div>
 
-  <!-- CONTACT -->
-  <section class="contact" id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:georgetphilip13@gmail.com">georgetphilip13@gmail.com</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/philipstgeorges" target="_blank">linkedin.com/in/philipstgeorges</a></p>
-    <p>GitHub: <a href="https://github.com/githoober929" target="_blank">github.com/githoober929</a></p>
-  </section>
+        <h4 style="margin-top:16px">Tools</h4>
+        <div class="skills-grid">
+          <div class="skill-pill">VS Code</div>
+          <div class="skill-pill">Postman</div>
+          <div class="skill-pill">Oracle DB</div>
+          <div class="skill-pill">Selenium</div>
+        </div>
+      </div>
 
-  <script src="script.js"></script>
+      <div>
+        <h3>Education</h3>
+        <div style="margin-top:10px;color:var(--muted)">
+          <strong>Marian College Kuttikkanam</strong><br/>
+          Bachelor of Computer Applications (2022 — 2025)
+          <hr style="margin:14px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)"/>
+          <strong>St. Joseph's Central School</strong><br/>
+          Higher Secondary Education (2020 — 2022)
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="reveal">
+      <h2>Projects</h2>
+
+      <div class="projects-grid" id="projectsGrid">
+        <div class="project" data-tilt data-tilt-max="10" tabindex="0">
+          <h4>Mobile Fitness App</h4>
+          <p>Built a cross-platform fitness app using Flutter and Firebase with personalized plans and real-time tracking.</p>
+        </div>
+
+        <div class="project" data-tilt data-tilt-max="10" tabindex="0">
+          <h4>Job Portal Website</h4>
+          <p>Developed a job portal using PHP, JavaScript, and MySQL with secure handling and responsive UI.</p>
+        </div>
+
+        <div class="project" data-tilt data-tilt-max="10" tabindex="0">
+          <h4>MT5 EA Automation</h4>
+          <p>Created automated trading systems with MQL5, including risk management, session filters and backtesting.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Philip T George — Built with code • Reach: <a href="mailto:georgetphilip13@gmail.com">georgetphilip13@gmail.com</a></div>
+    </footer>
+
+  </div>
+
+<script>
+/* ========== CONFIG ========== */
+/* If deploying to GitHub Pages, copy the profile image into your repo (e.g., 'assets/portfoliopic.jpg')
+   and replace PROFILE_IMG with the relative path. The developer provided local path below per instruction. */
+const PROFILE_IMG = '/mnt/data/portfoliopic.jpg'; // <-- keep for local preview; change when deploying to GitHub
+
+/* update profile image src programmatically to follow the developer instruction */
+document.addEventListener('DOMContentLoaded', () => {
+  const img = document.getElementById('profileImg');
+  if(img) img.src = PROFILE_IMG;
+  document.getElementById('year').textContent = new Date().getFullYear();
+});
+
+/* ========== Smooth scroll for internal links ========== */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+/* ========== Reveal animations using GSAP + ScrollTrigger ========== */
+window.addEventListener('load', () => {
+  if(typeof gsap !== 'undefined'){
+    gsap.registerPlugin(ScrollTrigger);
+
+    // hero reveal
+    gsap.from('#profileCard', { opacity:0, x:-40, duration:1, ease:'power3.out' });
+    gsap.from('#heroIntro', { opacity:0, x:40, duration:1, delay:0.12, ease:'power3.out' });
+
+    // reveal for each .reveal section
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      gsap.from(el, {
+        opacity:0,
+        y:18,
+        duration:0.9,
+        delay:0.08 * i,
+        ease:'power3.out',
+        scrollTrigger:{
+          trigger:el,
+          start:'top 85%',
+          toggleActions:'play none none none'
+        }
+      });
+    });
+
+    // small parallax tilt for profile
+    gsap.to('#profileImg', {
+      yPercent: -8,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#home',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.8
+      }
+    });
+
+    // projects stagger in
+    gsap.from('#projectsGrid .project', {
+      opacity:0,
+      y:22,
+      stagger:0.12,
+      duration:0.9,
+      ease:'power3.out',
+      scrollTrigger: { trigger:'#projectsGrid', start:'top 90%' }
+    });
+
+    // hover glow on projects
+    document.querySelectorAll('.project').forEach(card=>{
+      card.addEventListener('mouseenter', ()=> gsap.to(card, { boxShadow: '0 40px 100px rgba(0,170,255,0.06)', duration:0.25 }));
+      card.addEventListener('mouseleave', ()=> gsap.to(card, { boxShadow: '0 0 0 rgba(0,0,0,0)', duration:0.25 }));
+    });
+  }
+});
+
+/* ========== VanillaTilt for project cards ========== */
+document.addEventListener('DOMContentLoaded', () => {
+  if(typeof VanillaTilt !== 'undefined'){
+    const els = document.querySelectorAll('[data-tilt]');
+    VanillaTilt.init(els, {
+      max: 10,
+      speed: 400,
+      glare: true,
+      'max-glare': 0.12,
+      scale: 1.02
+    });
+  }
+});
+
+/* ========== Accessibility: keyboard focus for project cards (scale on focus) ========== */
+document.querySelectorAll('.project').forEach(p=>{
+  p.addEventListener('focus', ()=> p.style.transform='translateY(-10px) scale(1.01)');
+  p.addEventListener('blur', ()=> p.style.transform='none');
+});
+
+/* ========== Helpful dev note: If image fails after pushing to GitHub ========
+   - Ensure image file is inside your repo (e.g., /assets/portfoliopic.jpg).
+   - Use a relative path for the src: <img src="assets/portfoliopic.jpg" ... />
+   - If hosting via GitHub Pages, your path becomes: https://<username>.github.io/<repo>/assets/portfoliopic.jpg
+   - Do NOT reference local machine absolute paths when deploying (like /mnt/data/...). That's only for local preview.
+*/
+</script>
 </body>
 </html>
