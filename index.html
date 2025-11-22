@@ -1,223 +1,88 @@
-# Retry: create single-file HTML using safe placeholders to avoid f-string brace issues.
-import base64
-from pathlib import Path
-import json
-
-photo_path = Path("/mnt/data/portfoliopic.jpg")
-pdf_path = Path("/mnt/data/Philip T George -flutter.pdf")
-out_path = Path("/mnt/data/portfolio_index.html")
-
-photo_b64 = ""
-pdf_b64 = ""
-if photo_path.exists():
-    photo_b64 = base64.b64encode(photo_path.read_bytes()).decode("utf-8")
-else:
-    print("Photo not found at", photo_path)
-if pdf_path.exists():
-    pdf_b64 = base64.b64encode(pdf_path.read_bytes()).decode("utf-8")
-else:
-    print("PDF not found at", pdf_path)
-
-skills_list = [
-  "Flutter","Dart","Java","Python","SQL / PL-SQL","Firebase","Flowise","Selenium","AI agent workflows","Git & GitHub","Figma"
-]
-projects_list = [
-    {"title":"XAUUSD Algorithmic Strategy (In Progress)",
-     "desc":"Designing rules-based XAUUSD logic using VWAP, moving averages, volatility filters, and robust execution rules. Currently in research & backtesting phase.",
-     "link":"#"},
-    {"title":"Brainwave Trading Coach",
-     "desc":"AI-driven journaling app for traders to log ideas, emotions, and analyze patterns.",
-     "link":"#"},
-    {"title":"SoulSlide",
-     "desc":"AI-powered micro-content discovery app built with Flutter.",
-     "link":"#"},
-    {"title":"Mobile Fitness App",
-     "desc":"Cross-platform fitness tracking app built with Flutter and Firebase.",
-     "link":"https://github.com/githoober929/fitnessapp"},
-    {"title":"Job Portal Website",
-     "desc":"Dynamic job portal built with PHP, JavaScript, and MySQL.",
-     "link":"#"}
-]
-
-html_template = """<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Philip T George — Portfolio</title>
-<meta name="description" content="Portfolio of Philip T George — Flutter developer, AI automation, Flowise, trading logic."/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:#ffffff; --text:#0f1724; --muted:#475569; --accent:#0ea5e9; --card:#f8fafc;
-}
-.dark { --bg:#0b1220; --text:#e6eef6; --muted:#9aa7b2; --accent:#38bdf8; --card:#071026; }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
-.container{max-width:1100px;margin:0 auto;padding:20px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
-.brand{font-weight:700;letter-spacing:0.2px}
-.controls{display:flex;align-items:center;gap:10px}
-.btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
-.link{color:var(--accent);text-decoration:underline}
-.layout{display:grid;grid-template-columns:1fr;gap:20px;margin-top:14px}
-@media(min-width:860px){
-  .layout{grid-template-columns:320px 1fr;align-items:start}
-}
-.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-.photo{width:100%;border-radius:10px;display:block}
-.name{font-size:20px;font-weight:700;margin-top:10px}
-.title{color:var(--muted);font-size:13px;margin-top:4px}
-.socials{margin-top:10px;display:flex;gap:8px}
-.section-title{font-size:18px;font-weight:600;margin:12px 0}
-.skills-list{display:flex;flex-wrap:wrap;gap:8px}
-.skill{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 8px;border-radius:8px;font-size:13px;color:var(--muted)}
-.projects-grid{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:640px){.projects-grid{grid-template-columns:repeat(2,1fr)}}
-.project{padding:12px;border-radius:10px;background:var(--bg);border:1px solid rgba(2,6,23,0.04)}
-.project h4{margin:0 0 6px 0;font-size:15px}
-.footer{margin-top:20px;padding:14px 0;color:var(--muted);font-size:13px;text-align:center}
-.toggle{cursor:pointer;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:transparent}
-.header-links{display:flex;gap:10px;align-items:center}
-.contact-form input,.contact-form textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(2,6,23,0.06);margin-bottom:8px;background:transparent;color:var(--text)}
-.contact-form button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-/* subtle animations */
-.fade-in{opacity:0;transform:translateY(8px);animation:fadeIn 0.6s forwards}
-@keyframes fadeIn{to{opacity:1;transform:none}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Philip T George • Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="container" id="page">
-  <header class="header">
-    <div class="brand">Philip T George</div>
-    <div class="header-links">
-      <button id="themeToggle" class="toggle" aria-label="Toggle dark mode">Toggle</button>
-      <a class="btn" id="downloadResume" href="data:application/pdf;base64,__PDF_B64__" download="Philip_T_George_resume.pdf">Download Resume</a>
+  <!-- HEADER / HERO -->
+  <header class="hero" id="home">
+    <nav class="top-nav">
+      <div class="social-icons">
+        <a href="https://linkedin.com/in/philipstgeorges" target="_blank">🔗</a>
+        <a href="https://github.com/githoober929" target="_blank">🐙</a>
+        <a href="mailto:georgetphilip13@gmail.com">✉️</a>
+      </div>
+      <a class="btn download-btn" href="https://drive.google.com/file/d/1lLl-JLZ7BUZn0xfz2Qstd00FLJsIxEWL/view?usp=drive_link" target="_blank">Download Resume</a>
+    </nav>
+
+    <div class="hero-flex">
+      <img src="/mnt/data/portfoliopic.jpg" alt="Profile" class="profile-left" />
+
+      <div class="hero-text animate-fade">
+        <h1 class="title">Hey, I'm <span>Philip</span></h1>
+        <p class="subtitle">Flutter Developer • EA Automation • AI Workflow Builder</p>
+        <p class="about-short">A developer experienced in Flutter, MT5 EA development, and Flowise AI workflows. I build clean and reliable solutions.</p>
+      </div>
     </div>
   </header>
 
-  <main class="layout">
-    <!-- Left column -->
-    <aside class="card fade-in" style="--delay:0s">
-      <img class="photo" src="data:image/jpeg;base64,__PHOTO_B64__" alt="Philip T George"/>
-      <div class="name">Philip T George</div>
-      <div class="title">BCA Graduate • Flutter Developer • AI & Automation</div>
-      <div class="socials">
-        <a class="link" href="https://www.linkedin.com/in/philipstgeorges" target="_blank">LinkedIn</a>
-        <a class="link" href="https://github.com/githoober929" target="_blank">GitHub</a>
-      </div>
-      <div class="section-title">About Me</div>
-      <div style="color:var(--muted);font-size:14px;line-height:1.5">
-        I am a BCA graduate specializing in Flutter development and AI-powered automation. My experience includes building cross-platform mobile applications, creating workflow-driven AI solutions using tools like Flowise, and applying automation and testing logic within analytical environments. I am exploring algorithmic trading concepts and structured logic design for future automated systems.
-      </div>
-    </aside>
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <h2>About Me</h2>
+    <p>
+      A developer experienced in Flutter, MT5 EA development, and Flowise AI workflows. I focus on creating clean, scalable, and
+      well-structured solutions that perform reliably.
+    </p>
+  </section>
 
-    <!-- Right column -->
-    <section>
-      <div class="card fade-in" style="--delay:0.05s">
-        <div class="section-title">Skills</div>
-        <div class="skills-list" id="skillsList">
-          <!-- skills inserted by JS -->
-        </div>
-      </div>
+  <!-- SKILLS -->
+  <section class="skills" id="skills">
+    <h2>Expertise</h2>
+    <div class="skill-grid">
+      <span>Flutter & Dart</span>
+      <span>MT5 / MQL5</span>
+      <span>Flowise AI</span>
+      <span>Firebase</span>
+      <span>Git & GitHub</span>
+      <span>Figma</span>
+    </div>
+  </section>
 
-      <div class="card fade-in" style="--delay:0.1s; margin-top:16px">
-        <div class="section-title">Projects</div>
-        <div class="projects-grid" id="projectsGrid">
-          <!-- projects inserted by JS -->
-        </div>
-      </div>
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <h2>Projects</h2>
 
-      <div class="card fade-in" style="--delay:0.15s; margin-top:16px">
-        <div class="section-title">Education</div>
-        <div style="color:var(--muted);font-size:14px">
-          <strong>Marian College Kuttikkanam</strong><br/>
-          Bachelor of Computer Applications (BCA), 2022 - 2025<br/><br/>
-          <strong>St Joseph's Central School</strong><br/>
-          Higher Secondary
-        </div>
-      </div>
+    <div class="project-card">
+      <h3>Mobile Fitness App</h3>
+      <p>Built a cross‑platform fitness app using Flutter with Firebase for authentication and real‑time tracking.</p>
+      <a href="https://github.com/githoober929/fitnessapp" target="_blank">View Project</a>
+    </div>
 
-      <div class="card fade-in contact-form" style="--delay:0.18s; margin-top:16px" id="contact">
-        <div class="section-title">Contact</div>
-        <form onsubmit="sendMail(event)">
-          <input name="name" placeholder="Your name" required/>
-          <input name="email" placeholder="Your email" type="email" required/>
-          <textarea name="message" rows="4" placeholder="Message" required></textarea>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button type="submit">Send</button>
-            <a class="link" href="data:application/pdf;base64,__PDF_B64__" download="Philip_T_George_resume.pdf">Download Resume</a>
-          </div>
-        </form>
-      </div>
+    <div class="project-card">
+      <h3>Job Portal Website</h3>
+      <p>Developed a dynamic job portal using PHP, JavaScript, and MySQL with responsive UI and secure data handling.</p>
+    </div>
 
-      <footer class="footer">“If destiny has a plan for me, it should send it in writing.”</footer>
-    </section>
-  </main>
-</div>
+    <div class="project-card">
+      <h3>MT5 EA Automation</h3>
+      <p>Created automated trading systems with MQL5, including risk management, entries, filters, and optimization.</p>
+    </div>
+  </section>
 
-<script>
-// Data
-const skills = SKILLS_PLACEHOLDER;
-const projects = PROJECTS_PLACEHOLDER;
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:georgetphilip13@gmail.com">georgetphilip13@gmail.com</a></p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/philipstgeorges" target="_blank">linkedin.com/in/philipstgeorges</a></p>
+    <p>GitHub: <a href="https://github.com/githoober929" target="_blank">github.com/githoober929</a></p>
+  </section>
 
-// Populate skills
-const skillsList = document.getElementById('skillsList');
-skills.forEach(s=>{
-  const el = document.createElement('div');
-  el.className = 'skill';
-  el.textContent = s;
-  skillsList.appendChild(el);
-});
-
-// Populate projects
-const projectsGrid = document.getElementById('projectsGrid');
-projects.forEach(p=>{
-  const card = document.createElement('article');
-  card.className = 'project';
-  card.innerHTML = '<h4>'+p.title+'</h4><p style="color:var(--muted);font-size:14px;line-height:1.4">'+p.desc+'</p><div style="margin-top:8px"><a class="link" href="'+p.link+'" target="_blank">View Project</a></div>';
-  projectsGrid.appendChild(card);
-});
-
-// Theme toggle
-const themeToggle = document.getElementById('themeToggle');
-function setTheme(isDark){
-  document.documentElement.classList.toggle('dark', isDark);
-  localStorage.setItem('dark', isDark ? '1' : '0');
-}
-themeToggle.addEventListener('click', ()=> setTheme(!document.documentElement.classList.contains('dark')));
-if(localStorage.getItem('dark')==='1') setTheme(true);
-
-// contact form fallback to mailto
-function sendMail(e){
-  e.preventDefault();
-  const form = e.target;
-  const name = encodeURIComponent(form.name.value);
-  const email = encodeURIComponent(form.email.value);
-  const message = encodeURIComponent(form.message.value);
-  const subject = encodeURIComponent('Portfolio contact from ' + (name || email));
-  const body = message + '\\n\\nFrom: ' + name + '\\nEmail: ' + email;
-  window.location.href = 'mailto:georgetphilip13@gmail.com?subject=' + subject + '&body=' + body;
-}
-
-// simple fade-in using CSS variable
-document.querySelectorAll('.fade-in').forEach((el,i)=>{
-  const d = parseFloat(getComputedStyle(el).getPropertyValue('--delay')) || 0;
-  el.style.animationDelay = (d + i*0.04) + 's';
-  el.style.opacity = 0;
-  el.classList.add('fade-in');
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
-"""
-
-html_filled = html_template.replace("__PHOTO_B64__", photo_b64).replace("__PDF_B64__", pdf_b64)
-html_filled = html_filled.replace("SKILLS_PLACEHOLDER", json.dumps(skills_list))
-html_filled = html_filled.replace("PROJECTS_PLACEHOLDER", json.dumps(projects_list))
-
-out_path.write_text(html_filled, encoding='utf-8')
-out_path.exists()
-
