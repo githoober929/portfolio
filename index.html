@@ -381,5 +381,13 @@ document.getElementById('contactToggle').addEventListener('keydown', e=>{
   if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.target.click(); }
 });
 </script>
+<script type="module">
+    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+    Chatbot.init({
+        chatflowid: "4c3c165d-a6ca-4103-8192-f96097f6a3cd",
+        apiHost: "http://localhost:3000",
+    })
+</script>
+
 </body>
 </html>
