@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flowise Project Details — Philip T George</title>
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#00aaff;
+      --muted:#93a3b8;
+      font-family:'Poppins', sans-serif;
+    }
+    body{
+      margin:0;
+      padding:40px 20px;
+      background:var(--bg);
+      color:#e8f7ff;
+    }
+    .container{
+      max-width:900px;
+      margin:auto;
+    }
+    h1{
+      font-size:38px;
+      margin-bottom:10px;
+    }
+    p.lead{
+      color:var(--muted);
+      font-size:18px;
+      margin-bottom:30px;
+    }
+    .section{
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.05);
+      padding:24px;
+      border-radius:14px;
+      margin-bottom:20px;
+    }
+    h2{
+      margin-top:0;
+      color:#e8f7ff;
+      font-size:24px;
+    }
+    .tag{
+      background:rgba(0,170,255,0.15);
+      color:var(--accent);
+      padding:6px 12px;
+      border-radius:8px;
+      font-size:13px;
+      margin-right:6px;
+      display:inline-block;
+    }
+    .notice{
+      background:#181f2d;
+      border-left:4px solid var(--accent);
+      padding:16px;
+      border-radius:10px;
+      margin-top:20px;
+      color:#cbe6ff;
+      font-size:15px;
+    }
+    .back-btn{
+      display:inline-block;
+      margin-top:30px;
+      padding:12px 16px;
+      background:var(--accent);
+      border-radius:10px;
+      color:#04121e;
+      text-decoration:none;
+      font-weight:600;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <h1>Flowise Project — How It Works</h1>
+    <p class="lead">This page explains how my Flowise AI project operates, how it is hosted, and why it may go offline when my system shuts down.</p>
+
+    <!-- Section 1 -->
+    <div class="section">
+      <h2>1. Project Overview</h2>
+      <span class="tag">Flowise</span>
+      <span class="tag">RAG</span>
+      <span class="tag">Local AI</span>
+      <span class="tag">Cloudflare Tunnel</span>
+
+      <p>
+        This Flowise project is built using a Retrieval-Augmented Generation (RAG) pipeline.  
+        It uses DOCX/PDF files uploaded to Flowise, which are transformed into embedding vectors and stored in a local vector store.
+      </p>
+
+      <p>
+        The agent is powered by Groq / local LLMs and connected with tool-calling and retrievers for accurate answers on my trading or knowledge datasets.
+      </p>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <h2>2. Hosting (Cloudflare Tunnel)</h2>
+      <p>
+        This chatbot is NOT hosted on a cloud server.  
+        Instead, it runs **locally on my PC**, and I expose it to the internet using:
+      </p>
+
+      <div class="notice">
+        <strong>Cloudflare Tunnel</strong><br>
+        Cloudflare Tunnel creates a secure public URL that connects to my local Flowise server.  
+        It allows anyone to access the chatbot online without paying for hosting.
+      </div>
+
+      <p style="margin-top:14px;">
+        Since the tunnel links directly to my computer, the entire system depends on my local machine being ON.
+      </p>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <h2>3. Important Limitations</h2>
+
+      <div class="notice">
+        ✔ When my PC is powered ON → <strong>Chatbot works online</strong><br><br>
+        ❌ When my PC is OFF or restarted → <strong>Tunnel breaks</strong><br>
+        ❌ Flowise stops running<br>
+        ❌ API & UI links stop working temporarily<br>
+      </div>
+
+      <p style="margin-top:14px;">
+        This is normal because both Flowise and the LLM embeddings run locally, not on a cloud VM.
+      </p>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section">
+      <h2>4. If the Link Is Not Working</h2>
+
+      <p>
+        If the Flowise demo link shows:
+      </p>
+      <ul>
+        <li>“Server not reachable”</li>
+        <li>“Tunnel offline”</li>
+        <li>“Connection refused”</li>
+      </ul>
+
+      <div class="notice">
+        It means my system was shut down or the tunnel temporarily closed.  
+        Please contact me and I will bring the project back online.
+      </div>
+
+      <p style="margin-top:14px;">
+        📩 <strong>Contact:</strong> <a href="mailto:georgetphilip13@gmail.com" style="color:#00aaff;">georgetphilip13@gmail.com</a>
+      </p>
+    </div>
+
+    <a class="back-btn" href="index.html">← Back to Portfolio</a>
+  </div>
+</body>
+</html>

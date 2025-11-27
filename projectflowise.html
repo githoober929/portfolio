@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Projects — Philip T George</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    :root {
+        --bg:#0f1724;
+        --card:#0b1220;
+        --accent:#00aaff;
+        --muted:#93a3b8;
+        --glass:rgba(255,255,255,0.03);
+        --radius:16px;
+        font-family:'Poppins', sans-serif;
+    }
+
+    body {
+        margin:0;
+        background:var(--bg);
+        color:#e8f7ff;
+        padding:40px 20px;
+    }
+
+    .container {
+        max-width:1100px;
+        margin:auto;
+    }
+
+    /* HEADER */
+    .header-row {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:25px;
+    }
+
+    h1 {
+        margin:0;
+        font-size:38px;
+    }
+
+    .how-btn {
+        padding:12px 18px;
+        background:linear-gradient(90deg,var(--accent), #00ffc6);
+        color:#04121d;
+        border-radius:var(--radius);
+        font-weight:700;
+        text-decoration:none;
+        box-shadow:0 10px 30px rgba(0,170,255,0.15);
+        transition:transform .2s ease;
+    }
+
+    .how-btn:hover {
+        transform:translateY(-4px);
+    }
+
+    /* PROJECT GRID */
+    .grid {
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+        gap:20px;
+    }
+
+    .card {
+        background:var(--glass);
+        border:1px solid rgba(255,255,255,0.06);
+        padding:24px;
+        border-radius:var(--radius);
+        transition:transform .2s ease, box-shadow .2s ease;
+    }
+
+    .card:hover {
+        transform:translateY(-8px);
+        box-shadow:0 25px 60px rgba(0,170,255,0.10);
+    }
+
+    h2 { margin:0 0 6px 0; }
+
+    .desc {
+        color:var(--muted);
+        font-size:14px;
+        margin-bottom:14px;
+    }
+
+    .open-btn {
+        display:inline-block;
+        padding:10px 14px;
+        background:rgba(0,170,255,0.15);
+        border:1px solid rgba(0,170,255,0.3);
+        color:var(--accent);
+        border-radius:12px;
+        text-decoration:none;
+        font-size:14px;
+        transition:all .2s ease;
+    }
+
+    .open-btn:hover {
+        background:var(--accent);
+        color:#04121d;
+        box-shadow:0 10px 40px rgba(0,170,255,0.25);
+    }
+
+    /* FOOTER */
+    .footer {
+        margin-top:40px;
+        text-align:center;
+        color:var(--muted);
+        font-size:14px;
+    }
+</style>
+
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header-row">
+        <h1>My Projects</h1>
+
+        <!-- BUTTON: HOW FLOWISE WORKS -->
+        <a href="info.html" class="how-btn">Flowise AI — How It Works</a>
+    </div>
+
+    <p style="color:var(--muted); font-size:17px; margin-bottom:25px;">
+       
+        *Flowise links are updated frequently since I use Cloudflare Tunnel.
+    </p>
+
+    <!-- PROJECT GRID -->
+    <div class="grid">
+
+        <!-- FLOWISE PROJECTS -->
+        <div class="card">
+            <h2>Trading Bot Assistant</h2>
+            <p class="desc">RAG-powered trading assistant trained on my strategy docs.</p>
+            <a class="open-btn" href="YOUR-LINK-1" target="_blank">Open Project</a>
+        </div>
+
+        <div class="card">
+            <h2>Knowledge Base Chatbot</h2>
+            <p class="desc">Smart chatbot using embeddings + vector search.</p>
+            <a class="open-btn" href="YOUR-LINK-2" target="_blank">Open Project</a>
+        </div>
+
+        <div class="card">
+            <h2>AI Document Analyst</h2>
+            <p class="desc">Upload PDF/DOCX → structured summary and insights.</p>
+            <a class="open-btn" href="YOUR-LINK-3" target="_blank">Open Project</a>
+        </div>
+
+        <div class="card">
+            <h2>EA Strategy Advisor</h2>
+            <p class="desc">Explains MT5 algorithms, risk rules and trading logic.</p>
+            <a class="open-btn" href="YOUR-LINK-4" target="_blank">Open Project</a>
+        </div>
+
+        <!-- YOUR OTHER NON-FLOWISE PROJECTS -->
+        <div class="card">
+            <h2>Flutter Fitness App</h2>
+            <p class="desc">Cross-platform fitness tracking app using Flutter + Firebase.</p>
+            <a class="open-btn" href="https://github.com/githoober929/fitnessapp" target="_blank">View Code</a>
+        </div>
+
+        <div class="card">
+            <h2>Job Portal Website</h2>
+            <p class="desc">PHP + MySQL job portal with secure authentication.</p>
+            <a class="open-btn" href="https://github.com/githoober929" target="_blank">View Code</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © 2025 Philip T George — Projects Page <br>
+        If Flowise projects aren’t loading, my PC is probably sleeping 😴  
+        Contact: <a href="mailto:georgetphilip13@gmail.com" style="color:var(--accent)">georgetphilip13@gmail.com</a>
+    </div>
+
+</div>
+</body>
+</html>
