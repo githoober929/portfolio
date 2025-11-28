@@ -38,7 +38,7 @@ body{
   line-height:1.5;
   transition: background .25s ease, color .25s ease;
 }
-.container{max-width:var(--max-width);margin:0 auto;padding:22px;}
+.container{max-width:var(--max-width);margin:0 auto;padding:28px;}
 
 /* Header */
 .header{
@@ -96,11 +96,13 @@ body{
 
 /* layout: full-left image, right content */
 .main{
-  display:grid;
+  display:flex;
   grid-template-columns: minmax(260px, 380px) 1fr; /* left fixed-ish, right flexible */
-  gap:28px;
+  gap:30px;
+  justify-content: space-between;
   align-items:center;      /* IMPORTANT: vertical centering of right next to image */
   margin-top:20px;
+  padding-bottom: 40px;
 }
 
 /* On narrow screens stack */
@@ -114,18 +116,24 @@ body{
 /* left image -- full bleed inside left column */
 .left-image{
   width:100%;
-  max-width:380px;        /* controls displayed size */
+  max-width:230px;        /* controls displayed size */
   height:auto;            /* don't force tall height */
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:14px;
+  
   overflow:hidden;
-  margin:0;               /* ensures no extra offset */
+  margin:0; 
+   width: 240px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 60%;
+  border: 0px solid rgba(34, 32, 32, 0.15);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);              /* ensures no extra offset */
 }
 
 .left-image img{
-  animation:float 15s ease-in-out infinite;
+  animation:float 0s ease-in-out infinite;
 }
 
 @keyframes float{
@@ -134,6 +142,7 @@ body{
   100%{ transform:translateY(0px); }
 }
 .left-image img{
+ 
   width:100%;
   max-width:360px;        /* slightly inside container */
   height:auto;
@@ -170,7 +179,7 @@ body{
 }
 
 /* Make sure hero-intro doesn't push layout down */
-.hero-intro{ margin:0; }
+.hero-intro{ margin: 100px; ; margin-bottom: 100px;padding-bottom: 2px; }
 h1,h2,h3{ color:var(--neon); margin:0 0 8px 0; font-weight:700; }
 h1{ font-size:34px; line-height:1.02; }
 .lead{ color:var(--muted); margin-bottom:12px; font-weight:500; max-width:540px; }
@@ -187,6 +196,7 @@ h1{ font-size:34px; line-height:1.02; }
 
 /* projects */
 .project{
+  margin-bottom: 10px;
   display:block;
   padding:12px;
   border-radius:10px;
@@ -208,9 +218,31 @@ h1{ font-size:34px; line-height:1.02; }
 @media(max-width:520px){
   .contact-panel{ left:14px; right:14px; transform:none; width:auto; justify-content:space-around; padding:12px; bottom:-220px; }
 }
+.wave-bg {
+  background: linear-gradient(120deg, #16181e, #000000);
+  background-size: 200% 200%;
+  animation: wave 20s ease infinite;
+  height: auto;
+min-height: 100vh;
+}
+
+
+@keyframes wave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+#skills {
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+}
+
+
 </style>
 </head>
-<body>
+<body class="wave-bg">
 <div class="container">
 
   <!-- Header -->
@@ -268,7 +300,7 @@ h1{ font-size:34px; line-height:1.02; }
   </div>
 </div>
       <section class="section" id="about">
-        <h2>About</h2>
+        <h2>About Me</h2>
         <p style="color:var(--muted)">BCA graduate with hands-on experience in Flutter, automation, and AI tools. I enjoy building practical solutions that scale.</p>
       </section>
 
