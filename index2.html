@@ -48,63 +48,41 @@
   z-index: 2;        /* PIC stays on top */
 }
   /*invisible scroller on right code card */
-::-webkit-scrollbar {
-  height: 6px;
-  background: transparent;
+/* Smooth touch scroll on mobile */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.1);
+/* WebKit (Chrome, Edge, most Android browsers) */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;              /* horizontal scrollbar height */
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);  /* subtle track */
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);   /* more visible thumb */
   border-radius: 4px;
 }
-/* Galaxy Stars Animation */
-/* PURE CSS STAR ANIMATION */
+
+/* Firefox */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(12, 12, 30, 0.897) transparent; 
+  /* thumb                track       */
+}
+
+
+
 .profile-card {
   position: relative;
+  background: linear-gradient(145deg, #0a0f1f, #0f0f2fc3, #0e142b);
+  border-radius: 18px;
   overflow: hidden;
-  background-color: rgba(255,255,255,0.05); /* keeps card color */
 }
 
-/* Star layers */
-.profile-card::before,
-.profile-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-repeat: repeat;
-  background-size: 400px 400px;
-  opacity: 0.5;
-  animation: starMove 80s linear infinite;
-}
-
-.profile-card::before {
-  background-image:
-    radial-gradient(2px 2px at 20px 30px, white, transparent),
-    radial-gradient(2px 2px at 40px 80px, white, transparent),
-    radial-gradient(2px 2px at 120px 150px, white, transparent),
-    radial-gradient(2px 2px at 200px 50px, white, transparent),
-    radial-gradient(2px 2px at 300px 120px, white, transparent),
-    radial-gradient(1px 1px at 130px 200px, white, transparent),
-    radial-gradient(1px 1px at 90px 250px, white, transparent);
-}
-
-.profile-card::after {
-  background-image:
-    radial-gradient(2px 2px at 60px 90px, white, transparent),
-    radial-gradient(2px 2px at 160px 180px, white, transparent),
-    radial-gradient(2px 2px at 260px 40px, white, transparent),
-    radial-gradient(2px 2px at 20px 220px, white, transparent),
-    radial-gradient(1px 1px at 200px 260px, white, transparent),
-    radial-gradient(1px 1px at 300px 90px, white, transparent);
-  animation-duration: 120s;
-}
-
-/* Infinite looping */
-@keyframes starMove {
-  from { background-position: 0 0; }
-  to   { background-position: 0 -800px; }
-}
 /* code card */
 /* Neon glow + skew for code card */
 .code-card {
@@ -196,7 +174,7 @@
 
     <!-- RIGHT: Code Card -->
    <div class="code-card text-sm font-mono">
-  
+
   <!-- Top Bar -->
   <div class="flex items-center justify-between mb-4">
     <div class="flex gap-2">
@@ -207,8 +185,9 @@
     <span class="text-gray-400 text-xs">developer.js</span>
   </div>
 
-  <!-- Code Block -->
-  <pre class="whitespace-pre leading-relaxed">
+  <!-- FIX: Wrap <pre> inside overflow-x-auto -->
+  <div class="overflow-x-auto overscroll-x-contain">
+    <pre class="whitespace-pre leading-relaxed min-w-max">
 
 <span class="token-comment">// Software Developer</span>
 <span class="token-const">const</span> <span class="token-name">developer</span> <span class="token-punc">=</span> <span class="token-punc">{</span>
@@ -218,7 +197,8 @@
     <span class="token-key">learning</span><span class="token-punc">:</span> <span class="token-value">'Always'</span>
 <span class="token-punc">};</span>
 
-  </pre>
+    </pre>
+  </div>
 
 </div>
 
@@ -260,14 +240,18 @@
       <!-- EXPERIENCE -->
       <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
         <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-          💼 Experience
+         🌱 Learning & Growth Path
         </h3>
 
-        <p class="font-bold">Self-Taught Developer</p>
-        <p class="text-gray-400 mb-4">Projects in Flutter, Firebase, trading automation & AI tools.</p>
+        <p class="font-bold">Trading Strategies</p>
+        <p class="text-gray-400 mb-4">Designing and testing rule-based methods to understand and trade market movements.</p>
 
-        <p class="font-bold">XAUUSD Trader</p>
-        <p class="text-gray-400">Develop trading tools, automate strategies & build trading systems.</p>
+        <p class="font-bold">AI Trading Systems</p>
+        <p class="text-gray-400">Building automated systems that use AI to analyze markets and support trading decisions.</p>
+        
+        <p class="font-bold">AI Engineering</p>
+        <p class="text-gray-400">Creating practical AI-powered tools, bots, and automation using models, data, and code.</p>
+ 
       </div>
 
     </div>
@@ -326,7 +310,9 @@
 
     <!-- Project 1 -->
     <div class="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-xl">
-      <div class="bg-blue-500 h-40"></div>
+       <div class="h-40 w-full overflow-hidden">
+    <img src="Screenshot 2025-03-13 121920.png" class="w-full h-full object-cover">
+  </div>
       <div class="p-5">
         <h3 class="text-xl font-semibold mb-2">Fitness App</h3>
         <p class="text-gray-400 mb-4">Cross-platform fitness tracker with Firebase auth, workouts and analytics.</p>
@@ -344,17 +330,19 @@
 
     <!-- Project 2 -->
     <div class="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-xl">
-      <div class="bg-blue-500 h-40"></div>
+     <div class="h-40 w-full overflow-hidden">
+    <img src="Screenshot 2024-10-14 114614.png" class="w-full h-full object-cover">
+  </div>
       <div class="p-5">
-        <h3 class="text-xl font-semibold mb-2">Job Portal App</h3>
+        <h3 class="text-xl font-semibold mb-2">Job Portal Website</h3>
         <p class="text-gray-400 mb-4">Search jobs, filters and APIs integrated into a clean Flutter UI.</p>
 
         <div class="flex gap-2 flex-wrap mb-4">
-          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Flutter</span>
-          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">REST API</span>
+          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">PHP</span>
+          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MySQL</span>
         </div>
 
-        <a href="#" class="flex items-center gap-2 text-blue-400">
+        <a href="https://github.com/githoober929/jobportal" class="flex items-center gap-2 text-blue-400">
           <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" class="w-4"> GitHub
         </a>
       </div>
@@ -362,32 +350,36 @@
 
     <!-- Project 3 -->
     <div class="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-xl">
-      <div class="bg-blue-500 h-40"></div>
+     <div class="h-40 w-full overflow-hidden">
+    <img src="Screenshot 2025-11-17 103506.png" class="w-full h-full object-cover">
+  </div>
       <div class="p-5">
         <h3 class="text-xl font-semibold mb-2">Gold EA Automation</h3>
-        <p class="text-gray-400 mb-4">Automated MT5 system for XAUUSD with risk management & session filters.</p>
+        <p class="text-gray-400 mb-4">Automated MT5 EA for XAUUSD with risk management & session filters.</p>
 
         <div class="flex gap-2 flex-wrap mb-4">
           <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MQL5</span>
           <span class="px-3 py-1 bg-white/10 rounded-full text-sm">XAUUSD</span>
         </div>
 
-        <a href="#" class="flex items-center gap-2 text-blue-400">
-          Docs →
+        <a href="https://www.mql5.com/en/market/product/156647?source=Site+Market+MT5+Expert+Search+Rating006:camarilla" class="flex items-center gap-2 text-blue-400">
+          MQL5 →
         </a>
       </div>
     </div> <div class="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-xl extra-project hidden">
-      <div class="bg-blue-500 h-40"></div>
+    <div class="h-40 w-full overflow-hidden">
+    <img src="rag.jpg" class="w-full h-full object-cover">
+  </div>
       <div class="p-5">
-        <h3 class="text-xl font-semibold mb-2">Gold EA Automation</h3>
-        <p class="text-gray-400 mb-4">Automated MT5 system for XAUUSD with risk management & session filters.</p>
+        <h3 class="text-xl font-semibold mb-2">AI RAG Chatbot</h3>
+        <p class="text-gray-400 mb-4">A retrieval-augmented chatbot that delivers precise answers from uploaded PDFs and custom data.</p>
 
         <div class="flex gap-2 flex-wrap mb-4">
-          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MQL5</span>
-          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">XAUUSD</span>
+          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Flowise</span>
+          <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Ollama </span>
         </div>
 
-        <a href="#" class="flex items-center gap-2 text-blue-400">
+        <a href="https://bot.philipai.cyou/chatbot/4c3c165d-a6ca-4103-8192-f96097f6a3cd" class="flex items-center gap-2 text-blue-400">
           Docs →
         </a>
       </div>
@@ -408,42 +400,144 @@
   <div class="w-20 h-[3px] bg-blue-500 mb-10"></div>
 
   <p class="text-gray-400 max-w-3xl mb-10">
-    Technologies I work with across mobile development, backend, automation & AI.
+    Technologies and tools I work with across mobile development, AI systems, automation, backend services, and productivity.
   </p>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
+    <!-- Programming -->
     <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
-      <h3 class="text-lg font-semibold mb-3">Programming Languages</h3>
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5L12 3l8.25 4.5M3.75 7.5v9L12 21m0-18v9m8.25-4.5v9L12 21"/>
+        </svg>
+        Programming Languages
+      </h3>
+
       <div class="flex flex-wrap gap-2">
-        <span class="tag">Dart</span>
-        <span class="tag">Python</span>
-        <span class="tag">JavaScript</span>
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/flutter/white" class="w-4"> Dart
+        </span>
+
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/python/white" class="w-4"> Python
+        </span>
+
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/javascript/white" class="w-4"> JavaScript
+        </span>
       </div>
     </div>
 
+    <!-- Mobile Development -->
     <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
-      <h3 class="text-lg font-semibold mb-3">Mobile Development</h3>
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 3h9a1.5 1.5 0 011.5 1.5v15A1.5 1.5 0 0116.5 21h-9A1.5 1.5 0 016 19.5v-15A1.5 1.5 0 017.5 3z"/>
+        </svg>
+        Mobile Development
+      </h3>
+
       <div class="flex flex-wrap gap-2">
-        <span class="tag">Flutter</span>
-        <span class="tag">UI/UX</span>
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/flutter/white" class="w-4"> Flutter
+        </span>
+
+        <span class="tag">UI/UX Design</span>
         <span class="tag">Responsive Layout</span>
       </div>
     </div>
 
+    <!-- Backend & Tools -->
     <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
-      <h3 class="text-lg font-semibold mb-3">Backend / Tools</h3>
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5l9-4.5 9 4.5M3 7.5V15l9 4.5m0-12V19.5M21 7.5V15l-9 4.5"/>
+        </svg>
+        Backend & Tools
+      </h3>
+
       <div class="flex flex-wrap gap-2">
-        <span class="tag">Firebase</span>
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/firebase/white" class="w-4"> Firebase
+        </span>
+
         <span class="tag">Firestore</span>
         <span class="tag">REST APIs</span>
         <span class="tag">MQL5</span>
-        <span class="tag">Flowise</span>
+
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/openai/white" class="w-4"> Flowise
+        </span>
+      </div>
+    </div>
+
+    <!-- AI & Automation -->
+    <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
+        </svg>
+        AI & Automation
+      </h3>
+
+      <div class="flex flex-wrap gap-2">
+        <span class="tag">ChatGPT •</span>
+        <span class="tag">AI Tools•</span>
+        <span class="tag">Automation Workflows•</span>
+        <span class="tag">AI Agents•</span>
+        <span class="tag">Vector Embeddings•</span>
+        <span class="tag">Generative AI</span>
+      </div>
+    </div>
+
+    <!-- Trading Technology -->
+    <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 14l3-3 3 3 4-4"/>
+        </svg>
+        Trading Technology
+      </h3>
+
+      <div class="flex flex-wrap gap-2">
+        <span class="tag">Trading Strategies •</span>
+        <span class="tag">Automation (EA) •</span>
+        <span class="tag">Market Structure •</span>
+        <span class="tag">XAU/USD Analysis</span>
+      </div>
+    </div>
+
+    <!-- Productivity Tools -->
+    <div class="p-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur">
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5h15v15h-15z"/>
+        </svg>
+        Productivity Tools
+      </h3>
+
+      <div class="flex flex-wrap gap-2">
+        <span class="tag flex items-center gap-1">
+           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 48 48">
+    <path d="M11.3 7L31 3v42l-19.7-4V7zm4.2 5v26.9l11.1 2.3V9.7L15.5 12z"/>
+  </svg> MS Office
+        </span>
+
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/google/white" class="w-4"> Google Workspace
+        </span>
+
+        <span class="tag flex items-center gap-1">
+          <img src="https://cdn.simpleicons.org/notion/white" class="w-4"> Notion
+        </span>
       </div>
     </div>
 
   </div>
 </section>
+
 <!-- CONTACT -->
 <section id="contact" class="px-10 py-24 text-gray-200">
 
@@ -460,7 +554,7 @@
         Feel free to reach out if you have a project idea, want to collaborate, or simply want to say hello.
       </p>
 
-      <p class="mb-3"><strong>Email:</strong> yourmail@gmail.com</p>
+      <p class="mb-3"><strong>Email:</strong> contact@philipai.cyou</p>
       <p class="mb-3"><strong>Location:</strong> India</p>
 
      <div class="flex gap-4 mt-6">
@@ -473,14 +567,14 @@
   </a>
 
   <!-- LinkedIn -->
-  <a href="https://linkedin.com"
+  <a href="https://www.linkedin.com/in/philipstgeorges/"
      class="bg-white/10 backdrop-blur p-3 rounded-full border border-white/10 hover:bg-white/20 transition"
      aria-label="LinkedIn">
       <i data-lucide="linkedin" class="w-5 h-5 text-blue-400"></i>
   </a>
 
   <!-- Email -->
-  <a href="mailto:youremail@gmail.com"
+  <a href="mailto:contact@philipai.cyou"
      class="bg-white/10 backdrop-blur p-3 rounded-full border border-white/10 hover:bg-white/20 transition"
      aria-label="Email">
       <i data-lucide="mail" class="w-5 h-5 text-blue-400"></i>
@@ -551,6 +645,10 @@
 
 
 </script>
-
+<footer class="mt-12 py-6">
+  <p class="text-center text-gray-500 text-sm">
+    © 2025 Philip T George. All rights reserved.
+  </p>
+</footer>
 </body>
 </html>
