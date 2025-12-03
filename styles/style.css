@@ -124,12 +124,7 @@
     transform: translateY(0);
   }
 }
-@media (max-width: 768px) {
-  #chatToggle,
-  #chatWindow {
-    display: none !important;
-  }
-}
+
 .animate-slideDown {
   animation: slideDown 0.25s ease-out;
 }
