@@ -568,6 +568,7 @@
 </section>
 
 <!-- Chat Button -->
+<!-- Chat Open Button -->
 <button id="chatToggle"
   class="fixed bottom-6 right-6 bg-white/10 backdrop-blur-sm border border-white/20
          p-4 rounded-full shadow-2xl transition-all duration-300
@@ -593,12 +594,13 @@
     </svg>
   </button>
 
-  <!-- Chatbot iframe -->
+  <!-- Chatbot iframe (Lazy Loaded + Sandbox for safety) -->
   <iframe 
-    src="https://george2345-ai-chatbot.hf.space/"
+    id="botIframe"
+    sandbox="allow-scripts allow-same-origin allow-forms"
     class="w-full h-full rounded-xl"
-    style="border:0;">
-  </iframe>
+    style="border:0;"
+  ></iframe>
 
 </div>
 
@@ -659,17 +661,22 @@
     link.addEventListener("click", closeMenu);
   });
 </script>
-
 <script>
   const chatToggle = document.getElementById('chatToggle');
   const chatWindow = document.getElementById('chatWindow');
   const closeChat = document.getElementById('closeChat');
+  const botIframe = document.getElementById('botIframe');
 
   function openChat() {
     chatWindow.classList.remove("hidden");
     setTimeout(() => {
       chatWindow.classList.remove("opacity-0", "translate-y-5");
     }, 10);
+
+    // Lazy-load iframe ONLY when user opens chat
+    if (!botIframe.src) {
+      botIframe.src = "https://george2345-ai-chatbot.hf.space/";
+    }
   }
 
   function closeChatWindow() {
